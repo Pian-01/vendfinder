@@ -182,3 +182,20 @@ footer {
 .item-info strong {
     color: #a78bfa;
 }
+
+.item-details h4 {
+    margin-bottom: 6px;
+}
+
+.item-info button {
+    padding: 7px 12px;
+    border: none;
+    border-radius: 5px;
+    background: #8b5cf6;
+    color: white;
+    cursor: pointer;
+}
+
+.item-info button:hover {
+    background: #7c3aed;
+}

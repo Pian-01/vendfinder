@@ -46,19 +46,24 @@ function searchItems() {
         return;
     }
 
-    resultList.innerHTML = results.map(item => `
-        <div class="item-card">
-            <div>
-                <h4>${item.name}</h4>
-                <p>ID: ${item.id}</p>
-            </div>
+    
+        resultList.innerHTML = results.map(item => `
+          <div class="item-card">
+                <div class="item-details">
+                    <h4>${item.name}</h4>
+                   <p>ID: ${item.id}</p>
+                </div>
 
-            <div class="item-info">
-                <strong>${item.price}</strong>
-                <span>World: ${item.world}</span>
-            </div>
-        </div>
-    `).join("");
+                <div class="item-info">
+                   <strong>${item.price}</strong>
+                   <span>World: ${item.world}</span>
+                   <button onclick="copyWorld('${item.world}')">
+                    Copy World
+                  </button>
+                </div>
+          </div>
+        `).join("");
+
 }
 
 searchButton.addEventListener("click", searchItems);
@@ -68,3 +73,14 @@ searchInput.addEventListener("keydown", event => {
         searchItems();
     }
 });
+
+
+function copyWorld(world) {
+    navigator.clipboard.writeText(world)
+        .then(() => {
+            alert("World " + world + " berhasil disalin!");
+        })
+        .catch(() => {
+            alert("Gagal menyalin world.");
+        });
+}
