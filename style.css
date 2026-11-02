@@ -1,0 +1,153 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #111114;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* Navbar */
+nav a {
+    color: #888;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    color: #a78bfa;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    border-bottom: 1px solid #29292f;
+}
+
+nav h2 {
+    color: #a78bfa;
+    font-size: 22px;
+}
+
+nav span {
+    color: #888;
+    font-size: 14px;
+}
+
+/* Main */
+main {
+    width: 90%;
+    max-width: 700px;
+    margin: 100px auto;
+    text-align: center;
+}
+
+main h1 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+main > p {
+    color: #999;
+    margin-bottom: 30px;
+}
+
+/* Search */
+.search-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #1c1c22;
+    color: white;
+    outline: none;
+    font-size: 15px;
+}
+
+.search-box input:focus {
+    border-color: #a78bfa;
+}
+
+.search-box button {
+    padding: 0 25px;
+    border: none;
+    border-radius: 8px;
+    background: #8b5cf6;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background: #7c3aed;
+}
+
+/* Results */
+.results {
+    text-align: left;
+    padding: 20px;
+    border: 1px solid #29292f;
+    border-radius: 10px;
+    background: #19191f;
+}
+
+.results h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.empty {
+    color: #777;
+    text-align: center;
+    padding: 25px 0;
+    font-size: 14px;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+    padding: 25px;
+    border-top: 1px solid #29292f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    nav {
+        padding: 18px 5%;
+    }
+
+    nav span {
+        font-size: 11px;
+    }
+
+    main {
+        margin: 70px auto;
+    }
+
+    main h1 {
+        font-size: 28px;
+    }
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-box button {
+        padding: 14px;
+    }
+}
