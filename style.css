@@ -250,3 +250,39 @@ footer {
     border-radius: 10px;
 }
 
+/* Main Results Container */
+.results-container {
+    margin-top: 35px;
+    padding: 25px;
+    background: #18181e;
+    border: 1px solid #30303a;
+    border-radius: 16px;
+}
+
+/* Results Title */
+.results-title {
+    color: #ffffff;
+    font-size: 20px;
+    margin: 0 0 20px;
+}
+
+/* Results Grid */
+#resultList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+}
+
+/* Individual Card */
+.result-card {
+    background: #202027;
+    border: 1px solid #353541;
+    border-radius: 12px;
+    padding: 18px;
+    transition: 0.2s;
+}
+
+.result-card:hover {
+    border-color: #8957f5;
+    transform: translateY(-2px);
+}
