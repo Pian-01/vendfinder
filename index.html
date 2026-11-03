@@ -15,19 +15,21 @@
         </nav>
         <main>
             <h1>Find Item</h1>
-            <div class="search-box">
-                <input  type="text" 
-                        id="searchInput"
-                        placeholder="Search item name or ID">
-                <button id="searchButton">Search</button>
-            </div>
-            <section class="results">
-                <h3>Search Results</h3>
-                 <div id="resultList">
-                     <p class="empty">Search an item to see available listings.</p>
-                 </div>
+            <div class="search-box search-container">
+              <input
+               type="text"
+              id="searchInput"
+                placeholder="Cari nama atau ID item..."
+              >
+
+             <div id="itemSuggestions" class="suggestions"></div>
+
+             <button id="searchButton">Search</button>
+         </div>
+         <div id="resultList"></div>
+         
             </section>
-        </main>
+            </main>
         <footer>
             VendFinder © 2026
         </footer>

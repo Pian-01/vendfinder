@@ -199,3 +199,54 @@ footer {
 .item-info button:hover {
     background: #7c3aed;
 }
+
+/* Item autocomplete */
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+.suggestions {
+    position: absolute;
+    top: calc(100% + 5px);
+    left: 0;
+    width: 100%;
+    background: #1e1e2e;
+    border: 1px solid #38384a;
+    border-radius: 8px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: none;
+    box-sizing: border-box;
+}
+
+.suggestion-item {
+    padding: 12px 15px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.suggestion-item:hover {
+    background: #343449;
+}
+
+.suggestion-item small {
+    color: #999;
+}
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestions::-webkit-scrollbar {
+    width: 6px;
+}
+
+.suggestions::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+}
+
