@@ -174,11 +174,58 @@ function copyWorld(world) {
 
 searchButton.addEventListener("click", searchItems);
 
+
 searchInput.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
+    if (event.key !== "Enter") return;
+
+    event.preventDefault();
+
+    // Jika sudah memilih rekomendasi, langsung cari
+    if (selectedItemId !== null) {
+        itemSuggestions.style.display = "none";
         searchItems();
+        return;
     }
+
+    const inputValue = searchInput.value.trim().toLowerCase();
+
+    // Jika input berupa ID angka, langsung cari
+    if (/^\d+$/.test(inputValue)) {
+        itemSuggestions.style.display = "none";
+        searchItems();
+        return;
+    }
+
+    // Cari rekomendasi terdekat
+    const matches = itemDatabase
+        .filter(item =>
+            item.name.toLowerCase().includes(inputValue)
+        )
+        .sort((a, b) => {
+            const aName = a.name.toLowerCase();
+            const bName = b.name.toLowerCase();
+
+            const aStarts = aName.startsWith(inputValue);
+            const bStarts = bName.startsWith(inputValue);
+
+            return Number(bStarts) - Number(aStarts);
+        });
+
+    if (matches.length === 0) {
+        return;
+    }
+
+    // Pilih rekomendasi pertama
+    const selectedItem = matches[0];
+
+    selectedItemId = Number(selectedItem.id);
+    searchInput.value = selectedItem.name;
+
+    itemSuggestions.style.display = "none";
+
+    searchItems();
 });
+
 
 async function loadItemDatabase() {
     try {

@@ -1,90 +1,138 @@
 
 const express = require("express");
+const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = Number(process.env.PORT || 3000);
 
-// Menyediakan file frontend (HTML, CSS, JS)
-app.use(express.static(__dirname));
+app.disable("x-powered-by");
 
-// Endpoint untuk pencarian vending
+// Validasi konfigurasi URL
+function getEndpoint(name) {
+    const value = process.env[name];
+
+    if (!value) {
+        throw new Error(`Environment ${name} belum tersedia.`);
+    }
+
+    const url = new URL(value);
+
+    if (url.protocol !== "https:") {
+        throw new Error(`Environment ${name} harus HTTPS.`);
+    }
+
+    return url;
+}
+
+const VEND_ENDPOINT = getEndpoint("VEND_SEARCH_ENDPOINT");
+const ITEMS_ENDPOINT = getEndpoint("ITEM_DATABASE_ENDPOINT");
+
+// Mengambil data JSON dari server upstream
+async function fetchJson(url) {
+    const response = await fetch(url, {
+        headers: {
+            Accept: "application/json"
+        },
+        signal: AbortSignal.timeout(15000)
+    });
+
+    if (!response.ok) {
+        throw new Error("Upstream request failed.");
+    }
+
+    return response.json();
+}
+
+// Frontend
+app.get(["/", "/index.html"], (req, res) => {
+    res.sendFile(path.join(__dirname, "index.html"));
+});
+
+app.get("/style.css", (req, res) => {
+    res.sendFile(path.join(__dirname, "style.css"));
+});
+
+app.get("/script.js", (req, res) => {
+    res.sendFile(path.join(__dirname, "script.js"));
+});
+
+// Pencarian vending
 app.get("/api/vend-search", async (req, res) => {
     try {
         const { item_id } = req.query;
 
-        if (!item_id || !/^\d+$/.test(item_id)) {
+        if (
+            typeof item_id !== "string" ||
+            !/^\d+$/.test(item_id)
+        ) {
             return res.status(400).json({
                 success: false,
                 message: "Item ID tidak valid."
             });
         }
 
-        const params = new URLSearchParams({
-            item_id,
-            limit: "500",
-            order_by: "newest"
-        });
+        const url = new URL(VEND_ENDPOINT);
 
-        const apiUrl =
-            `https://tokodl.com/api/tools/vend-search?${params}`;
+        url.searchParams.set("item_id", item_id);
+        url.searchParams.set("limit", "500");
+        url.searchParams.set("order_by", "newest");
 
-        const response = await fetch(apiUrl);
+        const data = await fetchJson(url);
 
-        if (!response.ok) {
-            return res.status(response.status).json({
-                success: false,
-                message: "Gagal mengambil data dari Tokodl."
-            });
-        }
-
-        const data = await response.json();
-
-        res.json(data);
+        res.set("Cache-Control", "no-store");
+        return res.json(data);
 
     } catch (error) {
-        console.error("API Error:", error);
+        console.error("Vend search gagal.");
 
-        res.status(500).json({
+        return res.status(502).json({
             success: false,
-            message: "Terjadi kesalahan pada server VendFinder."
+            message: "Pencarian sementara tidak tersedia."
         });
     }
 });
 
-// Mengambil database nama item Growtopia
+// Database nama item
 app.get("/api/items", async (req, res) => {
     try {
-        const response = await fetch(
-            "https://tokodl.com/assets/growtopia/items-names.json?v=gt27-2"
-        );
+        const result = await fetchJson(ITEMS_ENDPOINT);
 
-        if (!response.ok) {
-            throw new Error("Gagal mengambil database item.");
+        if (!Array.isArray(result.names)) {
+            throw new Error("Format database item tidak valid.");
         }
-
-        const result = await response.json();
 
         const items = result.names.map((name, id) => ({
             id,
             name
         }));
 
-        res.json({
+        res.set("Cache-Control", "public, max-age=3600");
+
+        return res.json({
             success: true,
             count: items.length,
             data: items
         });
 
     } catch (error) {
-        console.error("Item Database Error:", error);
+        console.error("Database item gagal dimuat.");
 
-        res.status(500).json({
+        return res.status(502).json({
             success: false,
-            message: "Gagal memuat database item."
+            message: "Database item tidak tersedia."
         });
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`VendFinder berjalan di http://localhost:${PORT}`);
+// Endpoint tidak dikenal
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "Endpoint tidak ditemukan."
+    });
+});
+
+// Jalankan server lokal
+app.listen(PORT, "127.0.0.1", () => {
+    console.log(`VendFinder aktif di http://localhost:${PORT}`);
 });
