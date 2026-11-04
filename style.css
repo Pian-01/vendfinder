@@ -286,3 +286,58 @@ footer {
     border-color: #8957f5;
     transform: translateY(-2px);
 }
+
+/* Alignment Results */
+.results-container {
+    text-align: left;
+}
+
+.results-title {
+    text-align: left;
+}
+
+.result-card {
+    text-align: left;
+}
+
+.result-info {
+    text-align: left;
+}
+
+.result-info h4,
+.result-info p {
+    text-align: left;
+}
+
+.result-card button {
+    align-self: center;
+}
+
+.filter-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.filter-container select {
+    background: #202027;
+    color: white;
+    border: 1px solid #353541;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+}
+
+.filter-container select:focus {
+    border-color: #8957f5;
+}
+
+@media (max-width: 600px) {
+    .filter-container select {
+        flex: 1;
+        min-width: 0;
+    }
+}

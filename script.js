@@ -7,6 +7,11 @@ let selectedItemId = null;
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchButton");
 const resultList = document.getElementById("resultList");
+const worldSearch = document.getElementById("worldSearch");
+const sortFilter = document.getElementById("sortFilter");
+const accessFilter = document.getElementById("accessFilter");
+
+let currentVendingItems = [];
 
 async function searchItems() {
     const inputValue = searchInput.value.trim();
@@ -55,7 +60,11 @@ async function searchItems() {
             throw new Error("API gagal mengambil data.");
         }
 
-        displayResults(result.data);
+        currentVendingItems = Array.isArray(result.data)
+          ? result.data
+          : [];
+
+        renderFilteredResults();
 
     } catch (error) {
         console.error("VendFinder Error:", error);
@@ -69,6 +78,51 @@ async function searchItems() {
     } finally {
         searchButton.disabled = false;
     }
+}
+
+function getUnitPrice(price) {
+    const value = Number(price);
+
+    if (!Number.isFinite(value) || value === 0) {
+        return Infinity;
+    }
+
+    // Harga negatif: N WL per item
+    // Harga positif: N item per WL
+    return value < 0 ? 1 / Math.abs(value) : value;
+}
+
+function renderFilteredResults() {
+    const query = worldSearch.value.trim().toLowerCase();
+    const access = accessFilter.value;
+    const sort = sortFilter.value;
+
+    let filtered = currentVendingItems.filter(item => {
+        const matchesWorld = String(item.world_name || "")
+            .toLowerCase()
+            .includes(query);
+
+        const isAccessible = Number(item.accessible) === 1;
+
+        const matchesAccess =
+            access === "all" ||
+            (access === "accessible" && isAccessible) ||
+            (access === "restricted" && !isAccessible);
+
+        return matchesWorld && matchesAccess;
+    });
+
+    if (sort === "cheapest") {
+        filtered.sort((a, b) =>
+            getUnitPrice(a.price) - getUnitPrice(b.price)
+        );
+    } else if (sort === "expensive") {
+        filtered.sort((a, b) =>
+            getUnitPrice(b.price) - getUnitPrice(a.price)
+        );
+    }
+
+    displayResults(filtered);
 }
 
 function displayResults(items) {
@@ -203,3 +257,7 @@ itemSuggestions.addEventListener("click", event => {
 });
 
 loadItemDatabase();
+
+worldSearch.addEventListener("input", renderFilteredResults);
+sortFilter.addEventListener("change", renderFilteredResults);
+accessFilter.addEventListener("change", renderFilteredResults);

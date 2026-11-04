@@ -25,11 +25,35 @@
              <div id="itemSuggestions" class="suggestions"></div>
 
              <button id="searchButton">Search</button>
-         </div>
-            <div class="results-container">
-                <h3 class="results-title">Search Results</h3>
-                <div id="resultList"></div>
             </div>
+             <div class="results-container">
+             <h3 class="results-title">Search Results</h3>
+
+             <div class="filter-container">
+
+    <input
+        type="text"
+        id="worldSearch"
+        placeholder="Cari nama world..."
+    >
+
+    <select id="sortFilter">
+        <option value="default">Urutan: Terbaru</option>
+        <option value="cheapest">Termurah</option>
+        <option value="expensive">Termahal</option>
+    </select>
+
+    <select id="accessFilter">
+        <option value="all">Semua Vending</option>
+        <option value="accessible">Accessible</option>
+        <option value="restricted">Akses Terbatas</option>
+    </select>
+
+</div>
+         </div>
+
+         <div id="resultList"></div>
+        </div>
             </section>
             </main>
         <footer>
