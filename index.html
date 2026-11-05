@@ -1,65 +1,98 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="UT-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>VendFinder</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <nav>
-            <h2>VendFinder</h2>
-            <a href="https://discord.gg/thelostnemo" target="_blank" rel="noopener noreferrer">
-    Growtopia Marketplace
-</a>
-        </nav>
-        <main>
-            <h1>Find Item</h1>
-            <div class="search-box search-container">
-              <input
-               type="text"
-              id="searchInput"
-                placeholder="Cari nama atau ID item..."
-              >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f8f7ff">
+    <title>VendFinder — Growtopia Marketplace</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="site-nav">
+        <h2 class="brand">
+            Vend<span>Finder</span><i aria-hidden="true">⚡</i>
+        </h2>
 
-             <div id="itemSuggestions" class="suggestions"></div>
+        <a href="https://discord.gg/thelostnemo" target="_blank" rel="noopener noreferrer">
+            Growtopia Marketplace <span aria-hidden="true">↗</span>
+        </a>
+    </nav>
 
-             <button id="searchButton">Search</button>
+    <main>
+        <section class="hero">
+            <div class="hero-badge">
+                <span class="hero-badge-bolt" aria-hidden="true">⚡</span>
+                GROWtopia VENDING FINDER
             </div>
-             <div class="results-container">
-             <h3 class="results-title">Search Results</h3>
 
-             <div class="filter-container">
+            <h1>
+                Find your item.<br>
+                <span>Find the best deal.</span>
+                <span class="hero-spark" aria-hidden="true">✦</span>
+            </h1>
 
-    <input
-        type="text"
-        id="worldSearch"
-        placeholder="Cari nama world..."
-    >
+            <p class="hero-description">
+                Temukan vending terbaik dan bandingkan harga item Growtopia
+                dengan lebih mudah.
+            </p>
 
-    <select id="sortFilter">
-        <option value="default">Urutan: Terbaru</option>
-        <option value="cheapest">Termurah</option>
-        <option value="expensive">Termahal</option>
-    </select>
+            <div class="search-box search-container">
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Cari nama atau ID item..."
+                    autocomplete="off"
+                >
+                <div id="itemSuggestions" class="suggestions"></div>
+                <button id="searchButton">Search <span aria-hidden="true">⚡</span></button>
+            </div>
 
-    <select id="accessFilter">
-        <option value="all">Semua Vending</option>
-        <option value="accessible">Accessible</option>
-        <option value="restricted">Akses Terbatas</option>
-    </select>
+            <p class="hero-hint">
+                <span aria-hidden="true">✦</span>
+                Pilih item dari rekomendasi untuk mulai mencari vending.
+            </p>
+        </section>
 
-</div>
-         </div>
+        <section class="results-container">
+            <div class="results-heading">
+                <div>
+                    <span class="section-kicker">MARKETPLACE</span>
+                    <h3 class="results-title">Search Results <span aria-hidden="true">✦</span></h3>
+                </div>
+                <span class="results-note">Temukan deal terbaikmu</span>
+            </div>
 
-         <div id="resultList"></div>
-        </div>
-            </section>
-            </main>
-        <footer>
-            VendFinder © 2026
-        </footer>
-        </main>
-         <script src="script.js"></script>
-    </body>
+            <div class="filter-container">
+                <input
+                    type="text"
+                    id="worldSearch"
+                    placeholder="Cari nama world..."
+                >
+
+                <select id="sortFilter">
+                    <option value="default">Urutan: Terbaru</option>
+                    <option value="cheapest">Termurah</option>
+                    <option value="expensive">Termahal</option>
+                </select>
+
+                <select id="accessFilter">
+                    <option value="all">Semua Vending</option>
+                    <option value="accessible">Accessible</option>
+                    <option value="restricted">Akses Terbatas</option>
+                </select>
+            </div>
+
+            <div id="resultList"></div>
+        </section>
+    </main>
+
+    <footer>
+        <span class="footer-bolt" aria-hidden="true">⚡</span>
+        VendFinder © 2026
+        <span class="footer-note">Made for the Growtopia community</span>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
