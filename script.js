@@ -78,6 +78,11 @@ async function searchItems() {
     } finally {
         searchButton.disabled = false;
     }
+
+    addSearchHistory({
+    id: itemId,
+    name: itemName
+    });
 }
 
 function getUnitPrice(price) {
@@ -308,3 +313,125 @@ loadItemDatabase();
 worldSearch.addEventListener("input", renderFilteredResults);
 sortFilter.addEventListener("change", renderFilteredResults);
 accessFilter.addEventListener("change", renderFilteredResults);
+
+// ===============================
+// SEARCH HISTORY
+// ===============================
+
+const HISTORY_KEY = "vendfinder_search_history";
+const MAX_HISTORY = 15;
+
+const searchHistory = document.getElementById("searchHistory");
+const historyList = document.getElementById("historyList");
+const clearHistoryButton = document.getElementById("clearHistory");
+
+function getSearchHistory() {
+    try {
+        return JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function saveSearchHistory(history) {
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+}
+
+function addSearchHistory(item) {
+    if (!item || !item.name || item.id == null) return;
+
+    let history = getSearchHistory();
+
+    // Hapus item yang sama agar tidak duplikat
+    history = history.filter(entry => String(entry.id) !== String(item.id));
+
+    // Masukkan pencarian terbaru ke posisi pertama
+    history.unshift({
+        id: item.id,
+        name: item.name
+    });
+
+    // Maksimal 15 riwayat
+    history = history.slice(0, MAX_HISTORY);
+
+    saveSearchHistory(history);
+    renderSearchHistory();
+}
+
+function renderSearchHistory() {
+    const history = getSearchHistory();
+
+    historyList.innerHTML = "";
+
+    if (history.length === 0) {
+        historyList.innerHTML = `
+            <div class="history-empty">
+                No recent searches
+            </div>
+        `;
+        return;
+    }
+
+    history.forEach((item, index) => {
+        const element = document.createElement("div");
+        element.className = "history-item";
+
+        const name = document.createElement("span");
+        name.className = "history-item-name";
+        name.innerHTML = `<i class="fa-solid fa-clock-rotate-left"></i>`;
+        name.appendChild(document.createTextNode(item.name));
+
+        const removeButton = document.createElement("button");
+        removeButton.className = "remove-history";
+        removeButton.type = "button";
+        removeButton.innerHTML = "&times;";
+        removeButton.title = "Remove history";
+
+        removeButton.addEventListener("click", (event) => {
+            event.stopPropagation();
+
+            const updatedHistory = getSearchHistory();
+            updatedHistory.splice(index, 1);
+
+            saveSearchHistory(updatedHistory);
+            renderSearchHistory();
+        });
+
+        element.appendChild(name);
+        element.appendChild(removeButton);
+
+        element.addEventListener("click", () => {
+            searchInput.value = item.name;
+
+            // Jalankan fungsi pencarian yang sudah ada
+            searchButton.click();
+        });
+
+        historyList.appendChild(element);
+    });
+}
+
+// Tampilkan history saat input fokus dan kosong
+searchInput.addEventListener("focus", () => {
+    renderSearchHistory();
+    searchHistory.classList.add("show");
+});
+
+// Clear all history
+clearHistoryButton.addEventListener("click", () => {
+    localStorage.removeItem(HISTORY_KEY);
+    renderSearchHistory();
+});
+
+// Sembunyikan dropdown ketika klik di luar
+document.addEventListener("click", (event) => {
+    if (
+        !searchHistory.contains(event.target) &&
+        !searchInput.contains(event.target)
+    ) {
+
+    }
+});
+
+// Render awal
+renderSearchHistory();

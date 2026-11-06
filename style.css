@@ -688,3 +688,97 @@ footer {
         animation-duration: 0.01ms !important;
     }
 }
+
+/* SEARCH CONTAINER */
+.search-container {
+    position: relative;
+}
+
+/* SEARCH HISTORY */
+.search-history {
+    display: block;
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+
+    background: #ffffff;
+    border: 1px solid #e8e5f2;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(37, 34, 56, 0.12);
+
+    padding: 12px;
+    z-index: 1000;
+}
+
+.search-history.show {
+    display: block;
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 6px 10px;
+    color: #252238;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+#clearHistory {
+    border: none;
+    background: transparent;
+    color: #8B5CF6;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#clearHistory:hover {
+    color: #6D28D9;
+}
+
+.history-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.history-item:hover {
+    background: #F8F7FF;
+}
+
+.history-item-name {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #252238;
+    font-size: 13px;
+}
+
+.history-item-name i {
+    color: #9992AD;
+}
+
+.remove-history {
+    border: none;
+    background: transparent;
+    color: #aaa5b8;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.remove-history:hover {
+    color: #EF4444;
+}
+
+.history-empty {
+    padding: 15px 8px;
+    text-align: center;
+    color: #9992AD;
+    font-size: 12px;
+}
