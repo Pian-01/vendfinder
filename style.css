@@ -791,3 +791,7 @@ footer {
     color: #9992AD;
     font-size: 12px;
 }
+
+#searchResults {
+    scroll-margin-top: 25px;
+}

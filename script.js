@@ -177,7 +177,10 @@ function copyWorld(world) {
         .catch(() => alert("Gagal menyalin world."));
 }
 
-searchButton.addEventListener("click", searchItems);
+searchButton.addEventListener("click", () => {
+    searchItems();
+    scrollToResults();
+});
 
 
 searchInput.addEventListener("keydown", event => {
@@ -432,6 +435,17 @@ document.addEventListener("click", (event) => {
 
     }
 });
+
+function scrollToResults() {
+    const results = document.getElementById("searchResults");
+
+    if (!results) return;
+
+    results.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
 
 // Render awal
 renderSearchHistory();
