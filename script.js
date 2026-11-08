@@ -80,8 +80,8 @@ async function searchItems() {
     }
 
     addSearchHistory({
-    id: itemId,
-    name: itemName
+    id: selectedItemId,
+    name: searchInput.value.trim()
     });
 }
 
